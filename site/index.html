@@ -1,10 +1,90 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<title>first website</title>
-</head>
-<body>
-<h1>welcome to website</h1>
-</body>
-</html>
+<h1 id="python-packages">PYTHON PACKAGES</h1>
+<div class="figure">
+<embed src="https://www.python-course.eu/images/packages_script_350w.webp" title="a title" /><p class="caption">Alt text</p>
+</div>
+<p>In this article, you'll learn to divide your code base into clean, efficient modules using Python packages. Also, you'll learn to import and use your own or third party packages in a Python program.</p>
+<h1 id="introduction">INTRODUCTION</h1>
+<p>We don't usually store all of our files on our computer in the same location. We use a well-organized hierarchy of directories for easier access.</p>
+<p>Similar files are kept in the same directory, for example, we may keep all the songs in the &quot;music&quot; directory. Analogous to this, Python has packages for directories and modules for files.</p>
+<p>As our application program grows larger in size with a lot of modules, we place similar modules in one package and different modules in different packages. This makes a project (program) easy to manage and conceptually clear.</p>
+<p>Similarly, as a directory can contain subdirectories and files, a Python package can have sub-packages and modules.</p>
+<p>A directory must contain a file named <strong>init</strong>.py in order for Python to consider it as a package. This file can be left empty but we generally place the initialization code for that package in this file.</p>
+<p>Here is an example. Suppose we are developing a game. One possible organization of packages and modules could be as shown in the figure below.</p>
+<div class="figure">
+<img src="https://www.includehelp.com/python/images/python-packages-example.jpg" title="a title" alt="Alt text" /><p class="caption">Alt text</p>
+</div>
+<blockquote>
+<p>Importing module from a package</p>
+</blockquote>
+<p>We can import modules from packages using the dot (.) operator.</p>
+<p>For example, if we want to import the start module in the above example, it can be done as follows: &gt; import Game.Level.start</p>
+<p>Now, if this module contains a function named select_difficulty(), we must use the full name to reference it.</p>
+<blockquote>
+<p>Game.Level.start.select_difficulty(2)</p>
+</blockquote>
+<p>If this construct seems lengthy, we can import the module without the package prefix as follows:</p>
+<blockquote>
+<p>from Game.Level import start</p>
+</blockquote>
+<p>We can now call the function simply as follows:</p>
+<blockquote>
+<p>start.select_difficulty(2)</p>
+</blockquote>
+<p>Another way of importing just the required function (or class or variable) from a module within a package would be as follows:</p>
+<blockquote>
+<p>from Game.Level.start import select_difficulty</p>
+</blockquote>
+<p>Now we can directly call this function.</p>
+<blockquote>
+<p>select_difficulty(2)</p>
+</blockquote>
+<p>Although easier, this method is not recommended. Using the full namespace avoids confusion and prevents two same identifier names from colliding.</p>
+<p>While importing packages, Python looks in the list of directories defined in sys.path, similar as for module search path.</p>
+<h1 id="a-simple-example">A SIMPLE EXAMPLE</h1>
+<div class="figure">
+<embed src="https://www.python-course.eu/images/packages_300w.webp" title="a title" /><p class="caption">Alt text</p>
+</div>
+<p>We will demonstrate with a very simple example how to create a package with some Python modules. First of all, we need a directory. The name of this directory will be the name of the package, which we want to create. We will call our package &quot;simple_package&quot;. This directory needs to contain a file with the name <strong>init</strong>.py. This file can be empty, or it can contain valid Python code. This code will be executed when a package is imported, so it can be used to initialize a package, e.g. to make sure that some other modules are imported or some values set. Now we can put all of the Python files which will be the submodules of our module into this directory. We create two simple files a.py and b.py just for the sake of filling the package with modules.</p>
+<p>The content of a.py:</p>
+<blockquote>
+<p>def bar(): print(&quot;Hello, function 'bar' from module 'a' calling&quot;)</p>
+</blockquote>
+<p>The content of b.py:</p>
+<blockquote>
+<p>def foo(): print(&quot;Hello, function 'foo' from module 'b' calling&quot;)</p>
+</blockquote>
+<p>We will also add an empty file with the name <strong>init</strong>.py inside of simple_package directory.</p>
+<p>Let's see what happens, when we import simple_package from the interactive Python shell, assuming that the directory simple_package is either in the directory from which you call the shell or that it is contained in the search path or environment variable &quot;PYTHONPATH&quot; (from your operating system):</p>
+<blockquote>
+<p>import simple_package</p>
+</blockquote>
+<h2 id="simple_packagea">&gt;simple_package/a</h2>
+<p>NameError Traceback (most recent call last) <ipython-input-3-347df8a711cc> in <module> ----&gt; 1 simple_package/a</p>
+<p>NameError: name 'a' is not defined simple_package/b --------------------------------------------------------------------------- NameError Traceback (most recent call last) <ipython-input-4-e71d2904d2bd> in <module> ----&gt; 1 simple_package/b</p>
+<p>NameError: name 'b' is not defined We can see that the package simple_package has been loaded but neither the module &quot;a&quot; nor the module &quot;b&quot;! We can import the modules a and b in the following way:</p>
+<blockquote>
+<p>from simple_package</p>
+</blockquote>
+<blockquote>
+<p>import a, b a.bar()</p>
+</blockquote>
+<blockquote>
+<p>b.foo()</p>
+</blockquote>
+<p>Hello, function 'bar' from module 'a' calling Hello, function 'foo' from module 'b' calling As we have seen at the beginning of the chapter, we can't access neither &quot;a&quot; nor &quot;b&quot; by solely importing simple_package.</p>
+<p>Yet, there is a way to automatically load these modules. We can use the file <strong>init</strong>.py for this purpose. All we have to do is add the following lines to the so far empty file <strong>init</strong>.py:</p>
+<blockquote>
+<p>import simple_package.a</p>
+</blockquote>
+<blockquote>
+<p>import simple_package.b</p>
+</blockquote>
+<p>It will work now:</p>
+<p><strong><em>import simple_package</em></strong></p>
+<p><strong><em>simple_package.a.bar()</em></strong></p>
+<p><strong><em>simple_package.b.foo()</em></strong></p>
+<p>Hello, function 'bar' from module 'a' calling Hello, function 'foo' from module 'b' calling</p>
+<h1 id="difference-between-modules-and-packages">DIFFERENCE BETWEEN MODULES AND PACKAGES</h1>
+<div class="figure">
+<embed src="https://i0.wp.com/techvidvan.com/tutorials/wp-content/uploads/sites/2/2021/05/modules-vs-packages.jpg?fit=1200%2C628&amp;ssl=1" title="a title" /><p class="caption">Alt text</p>
+</div>
